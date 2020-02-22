@@ -97,39 +97,54 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-  
+        # While the light is off -->>
+            # Turn Light on  == indicating the list is sorted because no lights were turned off, therefore no swap were made
+            # Light off == swap was made in the iteration
+            # Start moving
+                # Starting and keep moving to the right 
+                    # Pick up (swap) the item (first iteration will be the first index) and move to the right (move_right)
+                        # if his held item's value is greater than the position in front of him
+                            # then swap it 
+                            # turn the light off so the loop continues
+                        # now move to the left to drop value that will either be the value from current or an earlier value
+                        # move right to continue
+                # Once at end of list:
+                # Before we start the left side, we want to decrement where we are starting since the first time we pass through from the right, we swap the highest number to the end of the list so we no longer need to compare
+                # Start by moving to the left using the same algorithm but from left to right and change the item comparison to:
+                    # if his held items value is less than the position in front of him
+                        # then swap it because he wants the higher values at the end
+                            # turn the light off
+                        # now move to the right to drop value that will either be the value from current or an earlier value
+                        # move left to continue
 
-        while True:
-            self.set_light_off()
+        while self.light_is_on() == False:
+            self.set_light_on() 
             
             while self.can_move_right():
-                self.move_right()
                 self.swap_item()
+                self.move_right()
                 
-                if self.compare_item() == None or self.compare_item() > 0:
+                if self.compare_item() == 1:
                     self.swap_item()
-                    self.set_light_on()
-            if self.light_is_on() == False:      
-                return  
-            self.set_light_off() 
-
-            while self.can_move_left():
+                    self.set_light_off()
+                    
                 self.move_left()
                 self.swap_item()
-                
-                if self.compare_item() == None or self.compare_item() < 0:
+                self.move_right()
+
+
+            # self.move_left() # thought this would help with run time but it doesnt seem to
+            while self.can_move_left():
+                self.swap_item()
+                self.move_left()
+               
+                if self.compare_item() == -1:
                     self.swap_item()
-                    self.set_light_on()
-                    # break
-            if self.light_is_on() == False:      
-                return      
-
-            
+                    self.set_light_off()
                     
-
-            
-            
-
+                self.move_right()
+                self.swap_item()
+                self.move_left()
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
